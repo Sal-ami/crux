@@ -1,0 +1,18 @@
+# Maintainer: Emran <https://github.com/Emran-goat>
+# AUR users: makepkg -si inside this directory.
+pkgname=crux-bin
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Finds the exact commit behind a behavior change"
+arch=('x86_64')
+url="https://github.com/Emran-goat/crux"
+license=('MIT')
+depends=('git')
+provides=('crux')
+conflicts=('crux')
+source=("crux-${pkgver}.tar.gz::https://github.com/Emran-goat/crux/releases/download/v${pkgver}/crux-x86_64-unknown-linux-musl.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+  install -Dm755 crux "${pkgdir}/usr/bin/crux"
+}

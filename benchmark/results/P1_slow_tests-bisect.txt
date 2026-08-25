@@ -1,0 +1,28 @@
+﻿running 'sh' 'bisect-test.sh'
+Bisecting: 14 revisions left to test after this (roughly 4 steps)
+[1657eca0c44553cf62fa2fc4d738f24f70b2a2b4] slow commit (45)
+running 'sh' 'bisect-test.sh'
+Bisecting: 7 revisions left to test after this (roughly 3 steps)
+[f9a27700374734419d95079ba249e395a083162f] slow commit (37)
+running 'sh' 'bisect-test.sh'
+Bisecting: 3 revisions left to test after this (roughly 2 steps)
+[0e158a712513d9a02cc58870136b2274cba18567] slow commit (41)
+running 'sh' 'bisect-test.sh'
+Bisecting: 1 revision left to test after this (roughly 1 step)
+[fd4a2f02e37a8995cdf737e67d11e80039e2f3b2] slow commit (39)
+running 'sh' 'bisect-test.sh'
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[b255f9901a3f2e4247b9735c35ef287733b2db87] slow commit (40) break
+running 'sh' 'bisect-test.sh'
+b255f9901a3f2e4247b9735c35ef287733b2db87 is the first bad commit
+commit b255f9901a3f2e4247b9735c35ef287733b2db87
+Author: bench <bench@b.dev>
+Date:   Thu Jan 1 12:40:00 2026 +0300
+
+    slow commit (40) break
+
+ status.txt | 2 +-
+ work.log   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+bisect found first bad commit
+

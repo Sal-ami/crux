@@ -1,0 +1,40 @@
+﻿running 'sh' 'bisect-test.sh'
+Bisecting: 249 revisions left to test after this (roughly 8 steps)
+[6169ed4b69e3728c48b99a8b8a9f92c2bfd3b69a] commit (750) break
+running 'sh' 'bisect-test.sh'
+Bisecting: 124 revisions left to test after this (roughly 7 steps)
+[c73f228a8479e3ec2e496d747530111224a5431e] commit (625)
+running 'sh' 'bisect-test.sh'
+Bisecting: 62 revisions left to test after this (roughly 6 steps)
+[fd00a409fc1ebd1634049ee02b441ed884ae7b3d] commit (687)
+running 'sh' 'bisect-test.sh'
+Bisecting: 31 revisions left to test after this (roughly 5 steps)
+[b16a7109fed06d292281410d6b1093f1b914bd81] commit (718)
+running 'sh' 'bisect-test.sh'
+Bisecting: 15 revisions left to test after this (roughly 4 steps)
+[40d5beadf3a3eb1b294d3f12a3c8035a73aff1e6] commit (734)
+running 'sh' 'bisect-test.sh'
+Bisecting: 7 revisions left to test after this (roughly 3 steps)
+[48b72164398557c778ab05b6ac8544706828bf93] commit (742)
+running 'sh' 'bisect-test.sh'
+Bisecting: 3 revisions left to test after this (roughly 2 steps)
+[365952d6963a9d5ef8d1cc87350d49b066db06fa] commit (746)
+running 'sh' 'bisect-test.sh'
+Bisecting: 1 revision left to test after this (roughly 1 step)
+[51d65e0b2d8a3f24858f397c899e705e4e4e51f6] commit (748)
+running 'sh' 'bisect-test.sh'
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[b297e838db98f410d1af761d6e411e5f99126c25] commit (749)
+running 'sh' 'bisect-test.sh'
+6169ed4b69e3728c48b99a8b8a9f92c2bfd3b69a is the first bad commit
+commit 6169ed4b69e3728c48b99a8b8a9f92c2bfd3b69a
+Author: bench <bench@b.dev>
+Date:   Fri Jan 2 00:30:00 2026 +0300
+
+    commit (750) break
+
+ status.txt | 2 +-
+ work.log   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+bisect found first bad commit
+

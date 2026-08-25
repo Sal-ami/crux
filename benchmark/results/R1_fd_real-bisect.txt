@@ -1,0 +1,22 @@
+﻿running 'sh' 'bisect-test.sh'
+Bisecting: 6 revisions left to test after this (roughly 3 steps)
+[eef9a3589fffd779d1e7e2ae6954773e260ac1f8] synthetic bench commit (18) break
+running 'sh' 'bisect-test.sh'
+Bisecting: 2 revisions left to test after this (roughly 2 steps)
+[c9296aa422987f23b6d803418cf41713b6e2b6f9] synthetic bench commit (15)
+running 'sh' 'bisect-test.sh'
+Bisecting: 0 revisions left to test after this (roughly 1 step)
+[b64550071b7c3dce953292d1415f23a958efbf97] synthetic bench commit (17)
+running 'sh' 'bisect-test.sh'
+eef9a3589fffd779d1e7e2ae6954773e260ac1f8 is the first bad commit
+commit eef9a3589fffd779d1e7e2ae6954773e260ac1f8
+Author: bench <bench@b.dev>
+Date:   Thu Jan 1 12:18:00 2026 +0300
+
+    synthetic bench commit (18) break
+
+ README.md  | 1 +
+ status.txt | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+bisect found first bad commit
+

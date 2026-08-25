@@ -1,0 +1,72 @@
+[package]
+name = "crux-finder"
+version = "0.1.0"
+edition = "2024"
+description = "finds the exact commit behind a behavior change"
+license = "MIT"
+repository = "https://github.com/Emran-goat/crux"
+homepage = "https://github.com/Emran-goat/crux"
+keywords = ["git", "bisect", "debugging", "blame", "ci"]
+categories = ["command-line-utilities", "development-tools"]
+readme = "README.md"
+
+[lib]
+name = "crux"
+path = "src/lib.rs"
+
+[[bin]]
+name = "crux"
+path = "src/main.rs"
+
+[dependencies]
+argp = "0.4"
+sha2 = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tree-sitter = "0.26"
+tree-sitter-rust = "0.24"
+tree-sitter-python = "0.25"
+tree-sitter-json = "0.24"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3"
+criterion = "0.5"
+proptest = "1"
+divan = "0.1.21"
+
+[[bench]]
+name = "min_bench"
+harness = false
+
+[[bench]]
+name = "slice_bench"
+harness = false
+
+[[bench]]
+name = "hash_bench"
+harness = false
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+opt-level = "z"
+
+[[bench]]
+name = "divan_bench"
+harness = false
+
+[package.metadata.deb]
+depends = "$auto, git"
+section = "vcs"
+priority = "optional"
+extended-description = """crux bisects more than pass/fail. Give it any command whose output \
+changed and it finds the exact commit that flipped the behavior, then explains the flip: \
+minimized causal diff, interaction faults, dependency-chain evidence, ranked candidates \
+for non-monotone history."""
+
+[package.metadata.generate-rpm]
+requires = { git = "*" }

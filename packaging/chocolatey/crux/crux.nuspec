@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>crux</id>
+    <version>0.1.0</version>
+    <title>crux</title>
+    <authors>Emran-goat</authors>
+    <projectUrl>https://github.com/Emran-goat/crux</projectUrl>
+    <projectSourceUrl>https://github.com/Emran-goat/crux</projectSourceUrl>
+    <packageSourceUrl>https://github.com/Emran-goat/crux/tree/main/packaging/chocolatey</packageSourceUrl>
+    <licenseUrl>https://github.com/Emran-goat/crux/blob/main/LICENSE</licenseUrl>
+    <bugTrackerUrl>https://github.com/Emran-goat/crux/issues</bugTrackerUrl>
+    <docsUrl>https://github.com/Emran-goat/crux#readme</docsUrl>
+    <summary>Finds the exact commit behind a behavior change.</summary>
+    <description>crux bisects more than pass/fail. Give it any command whose output changed and it finds the exact commit that flipped the behavior, then explains the flip: minimized causal diff, interaction faults, dependency-chain evidence, ranked candidates for non-monotone history.</description>
+    <tags>git bisect debugging cli</tags>
+    <license>MIT</license>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

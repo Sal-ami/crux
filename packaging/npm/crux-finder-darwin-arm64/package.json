@@ -1,0 +1,9 @@
+{
+  "name": "crux-finder-darwin-arm64",
+  "version": "0.1.0",
+  "description": "crux binary for darwin arm64. Optional dependency of crux-finder; binary downloads from GitHub Releases on first use.",
+  "license": "MIT",
+  "repository": "github:Emran-goat/crux",
+  "os": ["darwin"],
+  "cpu": ["arm64"]
+}

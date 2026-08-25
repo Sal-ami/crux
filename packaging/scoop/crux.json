@@ -1,0 +1,21 @@
+{
+    "version": "0.1.0",
+    "description": "Finds the exact commit behind a behavior change. Smarter than git bisect.",
+    "homepage": "https://github.com/Emran-goat/crux",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Emran-goat/crux/releases/download/v0.1.0/crux-x86_64-pc-windows-msvc.zip",
+            "hash": "PLACEHOLDER_SHA256"
+        }
+    },
+    "bin": "crux.exe",
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Emran-goat/crux/releases/download/v$version/crux-x86_64-pc-windows-msvc.zip"
+            }
+        }
+    }
+}

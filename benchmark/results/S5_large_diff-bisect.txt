@@ -1,0 +1,124 @@
+﻿running 'sh' 'bisect-test.sh'
+Bisecting: 12 revisions left to test after this (roughly 4 steps)
+[369f68278f08cff679f9e6a37a421bcc715da7a5] update all (37)
+running 'sh' 'bisect-test.sh'
+Bisecting: 6 revisions left to test after this (roughly 3 steps)
+[93c7a177e5c60962386815c9ddeabaf3b1a43e3a] update all (30) break
+running 'sh' 'bisect-test.sh'
+Bisecting: 2 revisions left to test after this (roughly 2 steps)
+[989c907463b31270a5a8e2a1a99cd36902b07a45] update all (27)
+running 'sh' 'bisect-test.sh'
+Bisecting: 0 revisions left to test after this (roughly 1 step)
+[462951b2ad52bcf4b9cc491aa3ef7a541313fca8] update all (29)
+running 'sh' 'bisect-test.sh'
+93c7a177e5c60962386815c9ddeabaf3b1a43e3a is the first bad commit
+commit 93c7a177e5c60962386815c9ddeabaf3b1a43e3a
+Author: bench <bench@b.dev>
+Date:   Thu Jan 1 12:31:00 2026 +0300
+
+    update all (30) break
+
+ src/f1.txt   | 1 +
+ src/f10.txt  | 1 +
+ src/f100.txt | 1 +
+ src/f11.txt  | 1 +
+ src/f12.txt  | 1 +
+ src/f13.txt  | 1 +
+ src/f14.txt  | 1 +
+ src/f15.txt  | 1 +
+ src/f16.txt  | 1 +
+ src/f17.txt  | 1 +
+ src/f18.txt  | 1 +
+ src/f19.txt  | 1 +
+ src/f2.txt   | 1 +
+ src/f20.txt  | 1 +
+ src/f21.txt  | 1 +
+ src/f22.txt  | 1 +
+ src/f23.txt  | 1 +
+ src/f24.txt  | 1 +
+ src/f25.txt  | 1 +
+ src/f26.txt  | 1 +
+ src/f27.txt  | 1 +
+ src/f28.txt  | 1 +
+ src/f29.txt  | 1 +
+ src/f3.txt   | 1 +
+ src/f30.txt  | 1 +
+ src/f31.txt  | 1 +
+ src/f32.txt  | 1 +
+ src/f33.txt  | 1 +
+ src/f34.txt  | 1 +
+ src/f35.txt  | 1 +
+ src/f36.txt  | 1 +
+ src/f37.txt  | 1 +
+ src/f38.txt  | 1 +
+ src/f39.txt  | 1 +
+ src/f4.txt   | 1 +
+ src/f40.txt  | 1 +
+ src/f41.txt  | 1 +
+ src/f42.txt  | 1 +
+ src/f43.txt  | 1 +
+ src/f44.txt  | 1 +
+ src/f45.txt  | 1 +
+ src/f46.txt  | 1 +
+ src/f47.txt  | 1 +
+ src/f48.txt  | 1 +
+ src/f49.txt  | 1 +
+ src/f5.txt   | 1 +
+ src/f50.txt  | 1 +
+ src/f51.txt  | 1 +
+ src/f52.txt  | 1 +
+ src/f53.txt  | 1 +
+ src/f54.txt  | 1 +
+ src/f55.txt  | 1 +
+ src/f56.txt  | 1 +
+ src/f57.txt  | 1 +
+ src/f58.txt  | 1 +
+ src/f59.txt  | 1 +
+ src/f6.txt   | 1 +
+ src/f60.txt  | 1 +
+ src/f61.txt  | 1 +
+ src/f62.txt  | 1 +
+ src/f63.txt  | 1 +
+ src/f64.txt  | 1 +
+ src/f65.txt  | 1 +
+ src/f66.txt  | 1 +
+ src/f67.txt  | 1 +
+ src/f68.txt  | 1 +
+ src/f69.txt  | 1 +
+ src/f7.txt   | 1 +
+ src/f70.txt  | 1 +
+ src/f71.txt  | 1 +
+ src/f72.txt  | 1 +
+ src/f73.txt  | 1 +
+ src/f74.txt  | 1 +
+ src/f75.txt  | 1 +
+ src/f76.txt  | 1 +
+ src/f77.txt  | 1 +
+ src/f78.txt  | 1 +
+ src/f79.txt  | 1 +
+ src/f8.txt   | 1 +
+ src/f80.txt  | 1 +
+ src/f81.txt  | 1 +
+ src/f82.txt  | 1 +
+ src/f83.txt  | 1 +
+ src/f84.txt  | 1 +
+ src/f85.txt  | 1 +
+ src/f86.txt  | 1 +
+ src/f87.txt  | 1 +
+ src/f88.txt  | 1 +
+ src/f89.txt  | 1 +
+ src/f9.txt   | 1 +
+ src/f90.txt  | 1 +
+ src/f91.txt  | 1 +
+ src/f92.txt  | 1 +
+ src/f93.txt  | 1 +
+ src/f94.txt  | 1 +
+ src/f95.txt  | 1 +
+ src/f96.txt  | 1 +
+ src/f97.txt  | 1 +
+ src/f98.txt  | 1 +
+ src/f99.txt  | 1 +
+ status.txt   | 2 +-
+ 101 files changed, 101 insertions(+), 1 deletion(-)
+bisect found first bad commit
+

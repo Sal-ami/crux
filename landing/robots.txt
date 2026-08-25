@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://crux.rweb.site/docs/sitemap.xml

@@ -1,0 +1,28 @@
+{
+  "name": "crux-finder",
+  "version": "0.1.0",
+  "description": "Finds the exact commit behind a behavior change. Faster than reading git log, smarter than git bisect.",
+  "license": "MIT",
+  "repository": "github:Emran-goat/crux",
+  "homepage": "https://github.com/Emran-goat/crux",
+  "bin": {
+    "crux": "bin/crux.js"
+  },
+  "files": [
+    "bin/",
+    "postinstall.js"
+  ],
+  "optionalDependencies": {
+    "crux-finder-win32-x64": "0.1.0",
+    "crux-finder-linux-x64-musl": "0.1.0",
+    "crux-finder-linux-arm64-musl": "0.1.0",
+    "crux-finder-darwin-x64": "0.1.0",
+    "crux-finder-darwin-arm64": "0.1.0"
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js || echo 'crux: skipped postinstall, binary downloads on first run'"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

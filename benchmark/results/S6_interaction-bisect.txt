@@ -1,0 +1,21 @@
+﻿running 'sh' 'bisect-test.sh'
+Bisecting: 4 revisions left to test after this (roughly 2 steps)
+[887244aa3d41c33165e6f6afeaa250b49dedf0de] break enable advanced mode
+running 'sh' 'bisect-test.sh'
+Bisecting: 1 revision left to test after this (roughly 1 step)
+[b1ba61313a8390f018f418c5d344a42f83c36b4d] padding2 (4)
+running 'sh' 'bisect-test.sh'
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[07adee1a82fea1e90daa96d5685388c381f896dd] padding2 (5)
+running 'sh' 'bisect-test.sh'
+887244aa3d41c33165e6f6afeaa250b49dedf0de is the first bad commit
+commit 887244aa3d41c33165e6f6afeaa250b49dedf0de
+Author: bench <bench@b.dev>
+Date:   Thu Jan 1 12:13:00 2026 +0300
+
+    break enable advanced mode
+
+ config.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+bisect found first bad commit
+

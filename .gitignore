@@ -1,0 +1,33 @@
+/target
+Cargo.lock.orig
+*.pdb
+
+# runtime state
+.crux/
+.execs
+.probe.log
+status.txt
+
+# node
+node_modules/
+package-lock.json
+
+# local bench scratch
+benchmark/repos/
+
+# criterion snapshot copies (regenerable via cargo bench)
+visuals/criterion/
+
+# internal working material, not part of the project
+brand/
+marketing/
+site/
+site-v2/
+fuzz/
+docs/
+test-docs/
+visuals/
+crux-idea.md
+code-review.md
+REPORT.md
+build-plan.mdunderstanding-crux-file-idea full context.json

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>crux - finds the exact commit behind a behavior change</title>
+<meta name="description" content="crux is a behavior blame tool for git. Point it at any observable behavior and it walks your history to find the commit that changed it, minimized to the exact lines. A single 2mb binary.">
+<meta property="og:title" content="crux - finds the exact commit behind a behavior change">
+<meta property="og:description" content="Behavior blame for git. One commit, the exact lines, in a single 2mb binary.">
+<meta property="og:image" content="https://crux.rweb.site/og.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<link rel="alternate" type="application/rss+xml" title="crux changelog" href="feed.xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23171717'/%3E%3Ctext x='8' y='11.5' font-family='monospace' font-size='10' fill='%23ffffff' text-anchor='middle'%3Ecx%3C/text%3E%3C/svg%3E">
+<style>
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-mono@latest/latin-400-normal.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-mono@latest/latin-500-normal.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-mono@latest/latin-600-normal.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-mono@latest/latin-700-normal.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bg: #ffffff;
+    --fg: #171717;
+    --muted: #737373;
+    --border: #e5e5e5;
+    --term-bg: #ffffff;
+    --dim: #9e9e9e;
+    --add: #4a7a55;
+    --del: #a35a54;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000000;
+      --fg: #ededed;
+      --muted: #8a8a8a;
+      --border: #262626;
+      --term-bg: #000000;
+      --dim: #6b6b6b;
+      --add: #7fa989;
+      --del: #b57a76;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--muted);
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--fg); }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 20px;
+    max-width: 744px;
+    margin-inline: auto;
+  }
+  @media (min-width: 641px) {
+    header { justify-content: flex-start; gap: 40px; padding: 0 32px; }
+  }
+  .logo { color: var(--fg); font-weight: 700; letter-spacing: -0.02em; }
+  nav { display: flex; gap: clamp(12px, 3vw, 28px); font-size: 13px; }
+  nav .nav-cta { color: var(--fg); }
+  main {
+    max-width: 744px;
+    margin-inline: auto;
+    padding: 40px 20px 64px;
+  }
+  @media (min-width: 641px) { main { padding: 56px 32px 96px; } }
+  /* wide viewports: uncenter, pin to the left edge like a shell */
+  @media (min-width: 1101px) {
+    header, main { max-width: none; margin-inline: 0; }
+  }
+  .hero { min-height: calc(100vh - 120px); display: flex; flex-direction: column; align-items: flex-start; }
+  .intro { margin-bottom: 40px; }
+  h1 {
+    margin: 0;
+    color: #767676;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: inherit;
+  }
+  .install-line {
+    margin: 1em 0 0;
+    font-size: clamp(10px, 3.2vw, 14px);
+    white-space: nowrap;
+  }
+  @media (min-width: 641px) { .install-line { font-size: 14px; } }
+  .install {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var(--fg);
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: left;
+  }
+  .install .dollar { color: var(--muted); user-select: none; }
+  .install code { font-weight: 600; }
+  .install .hint { color: var(--muted); opacity: 0; transition: opacity 120ms; }
+  .install:hover .hint, .install:focus-visible .hint, .install.copied .hint { opacity: 1; }
+  .meta { margin-top: 12px; font-size: 13px; }
+  .meta .sep { user-select: none; }
+  .meta a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .status { color: var(--fg); }
+  .note { position: relative; display: inline-block; }
+  .note > button {
+    border: 0; background: none; padding: 0;
+    font: inherit; color: var(--muted); cursor: help;
+  }
+  .note > button:hover { color: var(--fg); }
+  .note .tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    z-index: 2;
+    width: max-content;
+    max-width: 260px;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: normal;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms;
+  }
+  .note:hover .tip, .note:focus-within .tip { opacity: 1; }
+  .term-wrap { width: 100%; max-width: 680px; height: 320px; margin-bottom: 48px; }
+  .term {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--term-bg);
+    overflow: hidden;
+  }
+  .term-bar {
+    position: relative;
+    flex-shrink: 0;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dots { position: absolute; left: 20px; display: flex; gap: 8px; }
+  .dots span { width: 12px; height: 12px; border-radius: 50%; background: var(--muted); opacity: 0.35; }
+  .term-title { color: var(--muted); font-size: 13px; }
+  .term pre {
+    flex: 1;
+    margin: 0;
+    padding: 14px 16px;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--dim);
+    white-space: pre;
+  }
+  .term .bright { color: var(--fg); font-weight: 600; }
+  .term .prompt { color: var(--dim); }
+  .term .add { color: var(--add); }
+  .term .del { color: var(--del); }
+  .term .cursor { display: inline-block; width: 9px; height: 15px; background: var(--fg); vertical-align: text-top; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+  .prose { max-width: 600px; }
+  .prose p + p { margin-top: 1.5em; }
+  .prose b { color: var(--fg); font-weight: 600; }
+  .support { width: 100%; max-width: 680px; margin-top: 24px; }
+  .support h2 { color: var(--fg); font-size: 16px; font-weight: 700; margin: 0 0 12px; }
+  .support .sub { margin: 0 0 24px; }
+  .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 900px) { .tiers { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .tiers { grid-template-columns: 1fr; } }
+  .tier { border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: block; }
+  .tier:hover { border-color: var(--muted); }
+  .tier-name { display: block; color: var(--fg); font-weight: 700; }
+  .tier-price { display: block; color: var(--fg); font-size: 20px; font-weight: 700; margin: 6px 0 10px; }
+  .tier-per { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .tier-perks { list-style: none; margin: 0; padding: 0; font-size: 13px; line-height: 1.6; }
+  .tier-perks li { padding: 2px 0; }
+  .tier-perks li::before { content: "+ "; color: var(--dim); }
+  .tier-hot { border-color: var(--fg); }
+  .tiers-note { font-size: 13px; margin: 16px 0 0; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "crux",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "description": "Finds the exact commit behind a behavior change. Binary-searches any command across git history, then minimizes the flip to the exact lines.",
+  "url": "https://crux.rweb.site/",
+  "downloadUrl": "https://github.com/Emran-goat/crux/releases",
+  "softwareVersion": "0.1.0",
+  "license": "https://github.com/Emran-goat/crux/blob/main/LICENSE",
+  "author": {"@type": "Person", "name": "Emran-goat", "url": "https://github.com/Emran-goat"},
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script></head>
+<body>
+
+<header>
+  <a class="logo" href="/">crux</a>
+  <nav>
+    <a href="docs/">docs</a>
+    <a href="https://github.com/Emran-goat/crux" target="_blank" rel="noreferrer">source</a>
+    <a class="nav-cta" href="#support">support us</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="intro">
+      <h1>Finds the exact commit behind a behavior change.</h1>
+
+      <p class="install-line">
+        <button class="install" type="button" data-copy="curl -fsSL https://crux.rweb.site/install.sh | bash" aria-label="Copy install command">
+          <span class="dollar">$ </span><code>curl -fsSL https://crux.rweb.site/install.sh | bash</code>
+          <span class="hint" role="status">copied</span>
+        </button>
+      </p>
+
+      <p class="meta">
+        <span>v0.1.0</span> <span class="sep">&middot;</span> <span>2.04mib</span> <span class="sep">&middot;</span>
+        status: <span class="status">experimental</span>
+        <span class="note">
+          <button type="button" aria-label="Stability note">(i)</button>
+          <span class="tip" role="tooltip">the cli surface may still change while we ship the first stable release</span>
+        </span>
+      </p>
+    </div>
+
+    <div class="term-wrap">
+      <div class="term" role="img" aria-label="crux terminal session">
+        <div class="term-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="term-title">crux</div>
+        </div>
+<pre><span class="bright">crux</span> v0.1.0
+
+<span class="prompt">$</span> <span class="bright">crux who</span> -c "./check.sh" -f HEAD~50..HEAD
+commit: <span class="bright">7f31ac rework feeder pipeline</span>
+suspects: src/config.py, src/feeder.py
+essential: 1 of 3 hunks (4 probes)
+  <span class="del">-chunks = ids + tail</span>
+  <span class="add">+ids = chunks.split()</span>
+upstream: vendor/regex -> https://github.com/rust-lang/regex
+
+<span class="cursor"></span></pre>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p><b>Crux</b> is an analyzer of behavioral regressions in Git repositories written in Rust. It is available as a standalone binary which is around 2 MiB in size. Git is its only external dependency. The user defines the behavior using a command, defines the commit range and Crux traverses the history by executing the provided command on both ends and then using binary search over the commits between them to determine the exact flip commit in about twelve executions, regardless of whether the range covers approximately 1,000 commits.</p>
+
+      <p>After the search is performed, the found commit is minimized. Crux uses partial hunks on the parent and executes the command until there are only those lines left in the diff that cause behavioral changes, resulting in the causal diff. Transitions of vendored dependencies are extracted from the manifests and lockfiles in both revisions and presented along with version evidences; in case some commits cause behavioral changes only in combination, they are shown as pairs. In case where there is no single flip point, Crux returns the candidate list, not the speculatively chosen single commit.</p>
+
+      <p>Guardians are the protectors. They define the protected behaviors once in the repository and propagate them to watch mode that will re-execute them each time on checking, differentiate the drift into the code drift and environment drift based on the signatures and produce Markdown output ready to be pasted into a pull request.</p>
+
+      <p>All operations are local. There is neither daemon nor configuration involved. The only network activity is attributed to the possible --upstream-deep upstream attribution; all state data is kept in .crux/ directory in the repository. Removing that directory leaves the repository pristine.</p>
+    </div>
+
+    <section class="support" id="support">
+      <h2>support crux</h2>
+      <p class="sub">Back crux every month & your name goes on the wall. Every tier brings early access builds, sneak peeks & a special Discord channel. Builder adds your name on the Discord. Patron takes the top spot with a comment you write & a spot on the GitHub repo once it ships.</p>
+      <div class="tiers">
+        <a class="tier" href="https://buy.polar.sh/polar_cl_ZHxCt2K32L33ioBUvyuFoh0DChonKzNlouA8H1CbG9z">
+          <span class="tier-name">supporter</span>
+          <span class="tier-price">$10<span class="tier-per">/mo</span></span>
+          <ul class="tier-perks">
+            <li>name on the sponsor wall</li>
+            <li>early access to builds</li>
+            <li>sneak peeks before release</li>
+            <li>special discord channel</li>
+          </ul>
+        </a>
+        <a class="tier" href="https://buy.polar.sh/polar_cl_ZHxCt2K32L33ioBUvyuFoh0DChonKzNlouA8H1CbG9z">
+          <span class="tier-name">builder</span>
+          <span class="tier-price">$25<span class="tier-per">/mo</span></span>
+          <ul class="tier-perks">
+            <li>everything in supporter</li>
+            <li>your name on the discord</li>
+          </ul>
+        </a>
+        <a class="tier tier-hot" href="https://buy.polar.sh/polar_cl_ZHxCt2K32L33ioBUvyuFoh0DChonKzNlouA8H1CbG9z">
+          <span class="tier-name">patron</span>
+          <span class="tier-price">$50<span class="tier-per">/mo</span></span>
+          <ul class="tier-perks">
+            <li>everything in builder</li>
+            <li>top spot on the wall</li>
+            <li>a comment you write yourself</li>
+            <li>name on the github repo once it ships</li>
+          </ul>
+        </a>
+        <a class="tier" href="https://buy.polar.sh/polar_cl_ZHxCt2K32L33ioBUvyuFoh0DChonKzNlouA8H1CbG9z">
+          <span class="tier-name">custom</span>
+          <span class="tier-price">$10<span class="tier-per">+</span></span>
+          <ul class="tier-perks">
+            <li>any amount you choose</li>
+            <li>everything in supporter</li>
+          </ul>
+        </a>
+      </div>
+      <p class="tiers-note">every tier renews monthly. subscribe on polar & pick the tier that fits.</p>
+    </section>
+  </main>
+
+<script src="copy.js"></script>
+</body>
+</html>
+

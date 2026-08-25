@@ -1,0 +1,9 @@
+{
+  "name": "crux-finder-win32-x64",
+  "version": "0.1.0",
+  "description": "crux binary for Windows x64 (MSVC). Installed as an optional dependency of crux-finder; the binary itself downloads from GitHub Releases on first use if not present.",
+  "license": "MIT",
+  "repository": "github:Emran-goat/crux",
+  "os": ["win32"],
+  "cpu": ["x64"]
+}

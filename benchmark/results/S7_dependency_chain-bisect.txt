@@ -1,0 +1,24 @@
+﻿running 'sh' 'bisect-test.sh'
+Bisecting: 6 revisions left to test after this (roughly 3 steps)
+[9da1c7a2885c4fa4bcb9d616e14940a2231f47a9] post-update work (3)
+running 'sh' 'bisect-test.sh'
+Bisecting: 3 revisions left to test after this (roughly 2 steps)
+[795a4e741b096acc904273d78429856c394d2103] project work (15)
+running 'sh' 'bisect-test.sh'
+Bisecting: 1 revision left to test after this (roughly 1 step)
+[86ba08aadf7d540401f5030e8bc6d093b1cc73ec] post-update work (1)
+running 'sh' 'bisect-test.sh'
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[1e89564de4b24434ba2fd96b671562251f3f2eff] break update vendored library to v2
+running 'sh' 'bisect-test.sh'
+1e89564de4b24434ba2fd96b671562251f3f2eff is the first bad commit
+commit 1e89564de4b24434ba2fd96b671562251f3f2eff
+Author: bench <bench@b.dev>
+Date:   Thu Jan 1 12:17:00 2026 +0300
+
+    break update vendored library to v2
+
+ vendor/lib/version.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+bisect found first bad commit
+

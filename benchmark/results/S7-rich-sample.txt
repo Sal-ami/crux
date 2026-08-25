@@ -1,0 +1,11 @@
+﻿crux.exe : cmd:  e651ba8cf65a
+At line:1 char:1
++ & "C:\Users\fetit\AppData\Local\Temp\opencode\crux-bench\crux.exe" wh ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (cmd:  e651ba8cf65a:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+commit: 1e89564de4b2 break update vendored library to v2
+suspects: app/expect.txt, bisect-test.sh, pad.log, vendor/lib/version.txt
+  - v1
+  + v2-broken

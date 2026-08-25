@@ -1,0 +1,27 @@
+scenario|tool|time_ms|test_runs|accuracy|found
+S1_linear_50|git-bisect|1170|5|CORRECT|8d20aa4e4f5261fc32536ba4f21b7f264c1194f9 commit (40) break
+S1_linear_50|crux-normal|1512|7|CORRECT|8d20aa4e4f52 commit (40) break
+S1_linear_50|crux-fast|1160|7|CORRECT|8d20aa4e4f52 commit (40) break
+S2_linear_200|git-bisect|2134|8|CORRECT|b86029a7d8fc9892bb9e900c630b952bef374571 commit (150) break
+S2_linear_200|crux-normal|2246|8|CORRECT|b86029a7d8fc commit (150) break
+S2_linear_200|crux-fast|2557|8|CORRECT|b86029a7d8fc commit (150) break
+S3_linear_1000|git-bisect|2484|10|CORRECT|0378869799a43e1147e4aec45d52ab84b3609455 commit (750) break
+S3_linear_1000|crux-normal|2654|10|CORRECT|0378869799a4 commit (750) break
+S3_linear_1000|crux-fast|1796|10|CORRECT|0378869799a4 commit (750) break
+S4_merge|git-bisect|2661|7|CORRECT|47627f9ac0040c8968a23e79f4f40ef6dedce01a feature (20) break
+S4_merge|crux-normal|2215|7|CORRECT|47627f9ac004 feature (20) break
+S5_large_diff|git-bisect|2031|5|CORRECT|cb997710a3249edea4ee797b7210661f80e936be update all (30) break
+S5_large_diff|crux-normal|2490|7|CORRECT|cb997710a324 update all (30) break
+S5_large_diff|crux-fast|1961|7|CORRECT|cb997710a324 update all (30) break
+S6_interaction|git-bisect|1189|4|WRONG|0c076a2ca6a31381a9e9baadc931896b5eee3db2 padding3 (5)
+S6_interaction|crux-suspects|-|-|FEATURE| 
+S6_interaction|crux-normal|3026|19|MISS| 
+S7_dependency_chain|git-bisect|1187|5|CORRECT|153b67f6446d0eaec2788358f797e2e16de35ce4 break update vendored library to v2
+S7_dependency_chain|crux-diff-preview|-|-|FEATURE|
+S7_dependency_chain|crux-normal|1676|6|CORRECT|153b67f6446d break update vendored library to v2
+P1_slow_tests|git-bisect|3312|6|CORRECT|82a779c544bc2086437265e723b8f70c2b6a03d4 slow commit (40) break
+P1_slow_tests|crux-normal|4211|7|CORRECT|82a779c544bc slow commit (40) break
+P1_slow_tests|crux-parallel|5569|0|MISS| 
+R1_fd_real|git-bisect|1117|4|CORRECT|89ac2cc1e818a47e4b11b1c46702140d1a6a415f synthetic bench commit (18) break
+R1_fd_real|crux-normal|1528|6|CORRECT|89ac2cc1e818 synthetic bench commit (18) break
+R1_fd_real|crux-fast|1026|6|CORRECT|89ac2cc1e818 synthetic bench commit (18) break

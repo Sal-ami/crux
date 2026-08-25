@@ -1,0 +1,9 @@
+{
+  "name": "crux-finder-linux-x64-musl",
+  "version": "0.1.0",
+  "description": "crux binary for linux x64. Optional dependency of crux-finder; binary downloads from GitHub Releases on first use.",
+  "license": "MIT",
+  "repository": "github:Emran-goat/crux",
+  "os": ["linux"],
+  "cpu": ["x64"]
+}

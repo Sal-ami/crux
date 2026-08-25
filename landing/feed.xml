@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>crux changelog</title>
+    <link>https://crux.rweb.site/docs/changelog.html</link>
+    <description>Release notes for crux, the behavior blame tool for git.</description>
+    <language>en</language>
+    <atom:link href="https://crux.rweb.site/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>0.1.0</title>
+      <link>https://crux.rweb.site/docs/changelog.html</link>
+      <guid isPermaLink="false">crux-0.1.0</guid>
+      <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[First public release. who: binary-search any command across a commit range, --fast search-only mode, --parallel worktree probing. Explanations: minimized causal diff, interaction-fault detection, dependency blame with upstream attribution, ranked candidates, rewrite resilience. Guarding: behavior guardians, watch mode, deterministic replay, code and environment signatures. Single 2.04 MiB binary, only dependency is git.]]></description>
+    </item>
+  </channel>
+</rss>

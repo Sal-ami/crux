@@ -1,0 +1,14 @@
+pkgbase = crux-bin
+	pkgdesc = Finds the exact commit behind a behavior change
+	pkgver = 0.1.0
+	pkgrel = 1
+	url = https://github.com/Emran-goat/crux
+	arch = x86_64
+	license = MIT
+	depends = git
+	provides = crux
+	conflicts = crux
+	source = crux-0.1.0.tar.gz::https://github.com/Emran-goat/crux/releases/download/v0.1.0/crux-x86_64-unknown-linux-musl.tar.gz
+	sha256sums = SKIP
+
+pkgname = crux-bin
