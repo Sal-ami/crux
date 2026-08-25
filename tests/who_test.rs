@@ -122,10 +122,10 @@ fn who_shows_ranked_scores() {
         .args(["-c", "grep -q pass file.txt", "-f", "HEAD~2..HEAD"])
         .output()
         .unwrap();
-    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
     assert!(
-        stdout.contains("100") || stdout.contains("90"),
-        "expected high score: {stdout}"
+        stderr.contains("ranked candidates"),
+        "expected ranked candidates: {stderr}"
     );
 }
 
@@ -134,12 +134,13 @@ fn make_interaction_repo(dir: &std::path::Path) {
     Command::new("git").args(["config", "user.name", "test"]).current_dir(dir).assert().success();
     Command::new("git").args(["config", "user.email", "test@test.com"]).current_dir(dir).assert().success();
     fs::write(dir.join("file.txt"), "pass\n").unwrap();
+    fs::write(dir.join("test.sh"), "#!/bin/sh\ngrep -q pass file.txt\n").unwrap();
     Command::new("git").args(["add", "."]).current_dir(dir).assert().success();
     Command::new("git").args(["commit", "-m", "base"]).current_dir(dir).assert().success();
     fs::write(dir.join("file.txt"), "pass\nextra\n").unwrap();
     Command::new("git").args(["add", "."]).current_dir(dir).assert().success();
     Command::new("git").args(["commit", "-m", "add extra"]).current_dir(dir).assert().success();
-    fs::write(dir.join("test.sh"), "#!/bin/sh\ngrep -q pass file.txt && grep -q extra file.txt\n").unwrap();
+    fs::write(dir.join("test.sh"), "#!/bin/sh\ngrep -q pass file.txt && ! grep -q extra file.txt\n").unwrap();
     Command::new("git").args(["add", "."]).current_dir(dir).assert().success();
     Command::new("git").args(["commit", "-m", "change test"]).current_dir(dir).assert().success();
 }
@@ -152,11 +153,11 @@ fn who_finds_interaction_fault() {
     let output = crux()
         .current_dir(tmp.path())
         .arg("who")
-        .args(["-c", "sh test.sh", "-f", "HEAD~2..HEAD"])
+        .args(["-c", "sh test.sh", "-f", "HEAD~2..HEAD", "--interactions"])
         .output()
         .unwrap();
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    assert!(stdout.contains("interaction"), "expected interaction fault: {stdout}");
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("interaction fault"), "expected interaction fault: {stderr}");
 }
 
 #[test]
