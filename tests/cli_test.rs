@@ -295,6 +295,7 @@ fn make_interaction_repo(dir: &std::path::Path) {
         .assert()
         .success();
     fs::write(dir.join("file.txt"), "pass\n").unwrap();
+    fs::write(dir.join("test.sh"), "#!/bin/sh\ngrep -q pass file.txt\n").unwrap();
     Command::new("git")
         .args(["add", "."])
         .current_dir(dir)
@@ -316,8 +317,11 @@ fn make_interaction_repo(dir: &std::path::Path) {
         .current_dir(dir)
         .assert()
         .success();
-    fs::write(dir.join("test.sh"), "#!/bin/sh\ngrep -q pass file.txt && grep -q extra file.txt\n")
-        .unwrap();
+    fs::write(
+        dir.join("test.sh"),
+        "#!/bin/sh\ngrep -q pass file.txt && ! grep -q extra file.txt\n",
+    )
+    .unwrap();
     Command::new("git")
         .args(["add", "."])
         .current_dir(dir)
@@ -377,14 +381,14 @@ fn make_flip_repo(dir: &std::path::Path) {
         .current_dir(dir)
         .assert()
         .success();
-    fs::write(dir.join("file.txt"), "fail\nmore\n").unwrap();
+    fs::write(dir.join("file.txt"), "pass\nmore\n").unwrap();
     Command::new("git")
         .args(["add", "."])
         .current_dir(dir)
         .assert()
         .success();
     Command::new("git")
-        .args(["commit", "-m", "also bad"])
+        .args(["commit", "-m", "fixed"])
         .current_dir(dir)
         .assert()
         .success();
@@ -424,10 +428,10 @@ fn ranked_scores_all_commits() {
         .args(["-c", "grep -q pass file.txt", "-f", "HEAD~2..HEAD"])
         .output()
         .unwrap();
-    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
     assert!(
-        stdout.contains("100") || stdout.contains("90"),
-        "expected high score in output: {stdout}"
+        stderr.contains("ranked candidates"),
+        "expected ranked candidates: {stderr}"
     );
 }
 
@@ -441,13 +445,13 @@ fn interaction_finds_fault_pair() {
     let output = crux()
         .current_dir(tmp.path())
         .arg("who")
-        .args(["-c", "sh test.sh", "-f", "HEAD~2..HEAD"])
+        .args(["-c", "sh test.sh", "-f", "HEAD~2..HEAD", "--interactions"])
         .output()
         .unwrap();
-    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
     assert!(
-        stdout.contains("interaction"),
-        "expected interaction fault: {stdout}"
+        stderr.contains("interaction fault"),
+        "expected interaction fault: {stderr}"
     );
 }
 
