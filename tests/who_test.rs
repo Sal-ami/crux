@@ -115,7 +115,18 @@ fn who_fast_mode_skips_suspects() {
 fn who_shows_ranked_scores() {
     if !sh_available() { return; }
     let tmp = TempDir::new().unwrap();
-    make_flip_repo(tmp.path());
+    Command::new("git").args(["init"]).current_dir(tmp.path()).assert().success();
+    Command::new("git").args(["config", "user.name", "test"]).current_dir(tmp.path()).assert().success();
+    Command::new("git").args(["config", "user.email", "test@test.com"]).current_dir(tmp.path()).assert().success();
+    fs::write(tmp.path().join("file.txt"), "pass\n").unwrap();
+    Command::new("git").args(["add", "."]).current_dir(tmp.path()).assert().success();
+    Command::new("git").args(["commit", "-m", "base"]).current_dir(tmp.path()).assert().success();
+    fs::write(tmp.path().join("file.txt"), "fail\n").unwrap();
+    Command::new("git").args(["add", "."]).current_dir(tmp.path()).assert().success();
+    Command::new("git").args(["commit", "-m", "break"]).current_dir(tmp.path()).assert().success();
+    fs::write(tmp.path().join("file.txt"), "pass\nmore\n").unwrap();
+    Command::new("git").args(["add", "."]).current_dir(tmp.path()).assert().success();
+    Command::new("git").args(["commit", "-m", "fix"]).current_dir(tmp.path()).assert().success();
     let output = crux()
         .current_dir(tmp.path())
         .arg("who")
