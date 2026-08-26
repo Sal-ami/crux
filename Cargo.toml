@@ -9,6 +9,14 @@ homepage = "https://github.com/Emran-goat/crux"
 keywords = ["git", "bisect", "debugging", "blame", "ci"]
 categories = ["command-line-utilities", "development-tools"]
 readme = "README.md"
+include = [
+    "src/**",
+    "benches/**",
+    "tests/**",
+    "/README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+]
 
 [lib]
 name = "crux"
