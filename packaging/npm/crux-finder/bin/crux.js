@@ -61,29 +61,43 @@ function download() {
   }
   const triple = targetTriple(key);
   const ext = process.platform === "win32" ? "zip" : "tar.gz";
-  const url = `https://github.com/${REPO}/releases/download/v${VERSION}/crux-${triple}.${ext}`;
+  const asset = `crux-${triple}.${ext}`;
+  const urls = [
+    `https://github.com/${REPO}/releases/download/v${VERSION}/${asset}`,
+    `https://github.com/${REPO}/releases/latest/download/${asset}`,
+  ];
   const dest = path.join(os.homedir(), ".crux", "bin");
   fs.mkdirSync(dest, { recursive: true });
   const exe = path.join(dest, exeName());
-  console.error(`crux: downloading ${url}`);
   const fetchScript = `
     const fs = require("fs"), { execSync } = require("child_process");
-    const archive = process.argv[1], url = process.argv[2], out = process.argv[3];
-    try {
-      execSync(\`curl -fSL --retry 3 -o "\${archive}" "\${url}"\`, { stdio: "inherit" });
-    } catch (_) {
-      execSync(\`wget -qO "\${archive}" "\${url}"\`, { stdio: "inherit" });
+    const urls = JSON.parse(process.argv[1]);
+    const archive = process.argv[2], out = process.argv[3];
+    let ok = false;
+    for (const url of urls) {
+      console.error("crux: downloading " + url);
+      try {
+        execSync(\`curl -fSL --retry 3 -o "\${archive}" "\${url}"\`, { stdio: "inherit" });
+        ok = fs.existsSync(archive) && fs.statSync(archive).size > 10000;
+        if (ok) break;
+      } catch (_) {
+        try {
+          execSync(\`wget -qO "\${archive}" "\${url}"\`, { stdio: "inherit" });
+          ok = fs.existsSync(archive) && fs.statSync(archive).size > 10000;
+          if (ok) break;
+        } catch (_) {}
+      }
     }
+    if (!ok) process.exit(1);
     if (archive.endsWith(".zip")) {
-      const { execSync } = require("child_process");
       if (process.platform === "win32") execSync(\`tar -xf "\${archive}" -C "\${out}"\`);
       else execSync(\`unzip -o "\${archive}" -d "\${out}"\`);
     } else {
       execSync(\`tar -xzf "\${archive}" -C "\${out}"\`);
     }
   `;
-  const tmpArchive = path.join(dest, `crux-${triple}.${ext}`);
-  const r = spawnSync(process.execPath, ["-e", fetchScript, tmpArchive, url, dest], { stdio: "inherit" });
+  const tmpArchive = path.join(dest, asset);
+  const r = spawnSync(process.execPath, ["-e", fetchScript, JSON.stringify(urls), tmpArchive, dest], { stdio: "inherit" });
   if (r.status !== 0 || !fs.existsSync(exe)) {
     console.error("crux: download failed. Install manually: cargo install crux-finder");
     console.error("or grab an asset from https://github.com/" + REPO + "/releases");

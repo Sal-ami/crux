@@ -1,6 +1,6 @@
 {
   "name": "crux-finder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Finds the exact commit behind a behavior change. Faster than reading git log, smarter than git bisect.",
   "license": "MIT",
   "author": "crux",
