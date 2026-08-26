@@ -2,6 +2,8 @@
 
 Finds the commit that changed a program's behavior and shows the lines in that commit that caused the change.
 
+![crux binary-searching a 200 commit history, converging on the culprit in 8 probes](benchmark/img/bisect-search.gif)
+
 [![CI](https://github.com/Emran-goat/crux/actions/workflows/ci.yml/badge.svg)](https://github.com/Emran-goat/crux/actions)
 [![crates.io](https://img.shields.io/crates/v/crux-finder.svg)](https://crates.io/crates/crux-finder)
 [![npm](https://img.shields.io/npm/v/crux-finder.svg)](https://www.npmjs.com/package/crux-finder)
