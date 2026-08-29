@@ -87,7 +87,7 @@
     margin-inline: auto;
   }
   @media (min-width: 641px) {
-    header { justify-content: flex-start; gap: 40px; padding: 0 32px; }
+    header { justify-content: center; gap: 40px; padding: 0 32px; }
   }
   .logo { color: var(--fg); font-weight: 700; letter-spacing: -0.02em; }
   nav { display: flex; gap: clamp(12px, 3vw, 28px); font-size: 13px; }
@@ -98,16 +98,12 @@
     padding: 40px 20px 64px;
   }
   @media (min-width: 641px) { main { padding: 56px 32px 96px; } }
-  /* wide viewports: uncenter, pin to the left edge like a shell */
-  @media (min-width: 1101px) {
-    header, main { max-width: none; margin-inline: 0; }
-  }
-  .hero { min-height: calc(100vh - 120px); display: flex; flex-direction: column; align-items: flex-start; }
+  .hero { min-height: calc(100vh - 120px); display: flex; flex-direction: column; align-items: center; }
   .intro { margin-bottom: 40px; }
   h1 {
     margin: 0;
-    color: #767676;
-    font-size: 16px;
+    color: var(--fg);
+    font-size: 20px;
     font-weight: 700;
     line-height: inherit;
   }
