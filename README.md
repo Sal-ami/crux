@@ -89,4 +89,6 @@ Development is funded through tiers on [the website](https://crux.rweb.site/#sup
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE  
+
+i tried to make this project as professional as i can i regret it
